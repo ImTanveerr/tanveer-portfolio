@@ -18,33 +18,41 @@ export function Header() {
   ];
 
   return (
-    <header className='top-0 right-0 left-0 z-50 fixed bg-background/80 backdrop-blur-md border-b border-border'>
-      <div className='mx-auto px-6 py-4 container'>
-        <div className='flex justify-between items-center'>
-          {/* Logo/Name */}
-          <Link href='/' className='font-bold text-foreground text-xl'>
-            Towhid Karim
+    <header className="fixed top-0 left-0 right-0 z-50">
+      <div className="mx-auto max-w-6xl px-4 py-2">
+        <div className="flex justify-between items-center gap-6 rounded-full px-4 py-2 shadow-sm bg-gradient-to-r from-blue-500/90 to-blue-400/90 dark:from-blue-800/90 dark:to-blue-700/90 backdrop-blur-md">
+          
+          {/* Left: Logo/Name */}
+          <Link
+            href="/"
+            className="font-bold text-white text-lg tracking-wide hover:scale-105 transition-transform"
+          >
+            Tanveer
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className='hidden md:flex items-center space-x-8'>
+          {/* Right: Navigation + Login/Dashboard */}
+          <div className="hidden md:flex items-center space-x-6">
             {navItems.map((item) => (
               <a
                 key={item.name}
                 href={item.href}
-                className='font-medium text-muted-foreground hover:text-foreground text-sm transition-colors duration-200'
+                className="font-medium text-white/80 hover:text-white text-sm transition-colors"
               >
                 {item.name}
               </a>
             ))}
 
-            <Button disabled={session.status === 'loading'} asChild>
+            <Button
+              className="bg-white/90 text-blue-600 hover:bg-white transition-colors h-8 px-4 text-sm"
+              disabled={session.status === 'loading'}
+              asChild
+            >
               <Link href={session.data ? '/dashboard' : '/sign-in'}>
                 {session.data ? (
                   'Dashboard'
                 ) : session.status === 'loading' ? (
-                  <span className='flex flex-row justify-center items-center gap-2'>
-                    <Loader2 className='animate-spin' />
+                  <span className="flex flex-row items-center gap-1">
+                    <Loader2 className="animate-spin h-4 w-4" />
                     Loading...
                   </span>
                 ) : (
@@ -52,38 +60,41 @@ export function Header() {
                 )}
               </Link>
             </Button>
-          </nav>
+          </div>
 
           {/* Mobile Menu Button */}
           <Button
-            variant='ghost'
-            size='sm'
-            className='md:hidden'
+            variant="ghost"
+            size="sm"
+            className="md:hidden text-white"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            {isMenuOpen ? <X size={18} /> : <Menu size={18} />}
           </Button>
         </div>
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <nav className='md:hidden mt-4 pt-4 pb-4 border-t border-border'>
-            <div className='flex flex-col space-y-3'>
-              <Button asChild>
-                <Link href={session.data ? '/dashboard' : '/sign-in'}>
-                  {session.data ? 'Dashboard' : 'Sign In'}
-                </Link>
-              </Button>
+          <nav className="md:hidden mt-2 rounded-lg shadow-md bg-blue-500/95 dark:bg-blue-800/95 p-4">
+            <div className="flex flex-col space-y-3">
               {navItems.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className='py-2 font-medium text-muted-foreground hover:text-foreground text-sm transition-colors duration-200'
+                  className="py-2 font-medium text-white/80 hover:text-white text-sm transition-colors"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {item.name}
                 </Link>
               ))}
+              <Button
+                className="bg-white/90 text-blue-600 hover:bg-white transition-colors h-8 px-4 text-sm mt-2"
+                asChild
+              >
+                <Link href={session.data ? '/dashboard' : '/sign-in'}>
+                  {session.data ? 'Dashboard' : 'Sign In'}
+                </Link>
+              </Button>
             </div>
           </nav>
         )}
