@@ -31,9 +31,10 @@ export function Footer() {
               {BASIC_INFO.name}
             </h3>
             <p className='mb-6 max-w-md text-muted-foreground leading-relaxed'>
-              Full-stack developer passionate about creating exceptional digital
-              experiences. Let's build something amazing together.
+              I’m a full-stack developer who loves turning ideas into interactive and efficient web applications.
+              I aim to create digital experiences that are both functional and delightful.
             </p>
+
             <div className='flex items-center gap-3'>
               <Button variant='ghost' size='sm' asChild>
                 <Link
