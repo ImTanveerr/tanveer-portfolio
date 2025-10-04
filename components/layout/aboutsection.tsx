@@ -4,19 +4,7 @@ import { Download, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 import { BASIC_INFO } from '@/lib/contants';
 
-const skills = [
-  'JavaScript',
-  'TypeScript',
-  'React',
-  'Next.js',
-  'Node.js',
-  'Express',
-  'Python',
-  'PostgreSQL',
-  'MongoDB',
-  'Prisma',
-  'Git',
-];
+
 
 export function AboutSection() {
   return (
@@ -27,10 +15,7 @@ export function AboutSection() {
           <h2 className="mb-4 font-bold text-blue-600 dark:text-blue-400 text-3xl md:text-4xl">
             About Me
           </h2>
-          <p className="mx-auto max-w-2xl text-muted-foreground text-lg">
-            Discover my journey, educational background, skills, and passion for crafting impactful digital experiences.
-          </p>
-
+         
         </div>
 
         <div className="space-y-16">
@@ -64,19 +49,7 @@ export function AboutSection() {
             </ul>
           </div>
 
-          {/* Skills */}
-          <div>
-            <h3 className="mb-4 font-semibold text-foreground text-2xl">
-              Skills & Technologies
-            </h3>
-            <div className="flex flex-wrap gap-2">
-              {skills.map((skill) => (
-                <Badge key={skill} variant="secondary" className="text-sm">
-                  {skill}
-                </Badge>
-              ))}
-            </div>
-          </div>
+        
 
           {/* Resume Actions */}
           <div className="text-center pt-6 flex justify-center gap-4">

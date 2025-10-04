@@ -26,17 +26,17 @@ export default async function BlogPage() {
     <section className="p-8 min-h-screen bg-gray-50">
       {/* Page Header */}
       <div className="flex items-center justify-between mb-8">
-    <div className="flex items-center gap-4">
-  <Link href="/dashboard">
-    <Button variant="outline" className="flex items-center gap-2">
-      <ArrowLeft className="w-4 h-4" />
-      Dashboard
-    </Button>
-  </Link>
-</div>
+        <div className="flex items-center gap-4">
+          <Link href="/dashboard">
+            <Button variant="outline" className="flex items-center gap-2">
+              <ArrowLeft className="w-4 h-4" />
+              Dashboard
+            </Button>
+          </Link>
+        </div>
 
+        <h1 className="text-3xl font-bold text-blue-600">Blog Management</h1>
 
-        <h1 className="text-3xl font-bold text-gray-900">Blog Management</h1>
         <Button variant="outline" asChild>
           <Link href="/dashboard/blog/create">Create New Post</Link>
         </Button>

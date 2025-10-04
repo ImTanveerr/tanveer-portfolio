@@ -5,45 +5,33 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { TProject } from '@/zod/project.typeschema';
-import { TResponse } from '@/zod/response.typeschema';
 import { ArrowLeft, X } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { toast } from 'sonner';
+import Image from 'next/image';
 
-export default function ProjectEditForm({
-  projectData,
-}: {
-  projectData: TProject;
-}) {
+export default function ProjectEditForm({ projectData }: { projectData: TProject }) {
   const router = useRouter();
-  const [name, setName] = useState<string>(projectData.name);
-  const [description, setDescription] = useState<string>(
-    projectData.description ?? ''
-  );
-  const [imageUrl, setImageUrl] = useState<string>(
-    projectData.thumbnailUrl ?? ''
-  );
-  const [liveUrl, setLiveUrl] = useState<string>(projectData.liveUrl ?? '');
-  const [projectUrl, setProjectUrl] = useState<string>(
-    projectData.projectUrl ?? ''
-  );
-  const [featureInput, setFeatureInput] = useState<string>('');
-  const [features, setFeatures] = useState<string[]>(
-    projectData.features ?? []
-  );
+  const [name, setName] = useState(projectData.name);
+  const [description, setDescription] = useState(projectData.description ?? '');
+  const [imageUrl, setImageUrl] = useState(projectData.thumbnailUrl ?? '');
+  const [liveUrl, setLiveUrl] = useState(projectData.liveUrl ?? '');
+  const [projectUrl, setProjectUrl] = useState(projectData.projectUrl ?? '');
+  const [featureInput, setFeatureInput] = useState('');
+  const [features, setFeatures] = useState<string[]>(projectData.features ?? []);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleAddFeature = () => {
     const v = featureInput.trim();
     if (!v) return;
-    setFeatures((prev) => [...prev, v]);
+    setFeatures(prev => [...prev, v]);
     setFeatureInput('');
   };
 
   const handleRemoveFeature = (index: number) => {
-    setFeatures((prev) => prev.filter((_, i) => i !== index));
+    setFeatures(prev => prev.filter((_, i) => i !== index));
   };
 
   const handleSubmit = async (e: FormEvent) => {
@@ -52,8 +40,8 @@ export default function ProjectEditForm({
       toast.error('Please fill in required fields');
       return;
     }
-    if (!imageUrl || imageUrl == '') {
-      toast.error('Please upload the thumbnail image');
+    if (!imageUrl) {
+      toast.error('Please upload a thumbnail');
       return;
     }
 
@@ -63,16 +51,16 @@ export default function ProjectEditForm({
       id: projectData.id,
       name,
       description,
-      thumbnailUrl: imageUrl || undefined,
+      thumbnailUrl: imageUrl,
       liveUrl,
       projectUrl,
       features,
-    } as TProject;
+    };
 
     const res = await EditProjectAction(payload);
     if ((res as any).succes) {
       toast.success('Project updated successfully!');
-      router.push('/dashboard');
+      router.push('/dashboard/project');
     } else {
       toast.error('Project update failed');
     }
@@ -80,106 +68,136 @@ export default function ProjectEditForm({
   };
 
   return (
-    <section className='mx-auto px-4 py-20 max-w-6xl'>
-      <div className='mb-6'>
-        <Link href={`/`}>
-          <Button variant='outline' size='sm'>
-            <ArrowLeft className='mr-2 w-4 h-4' />
-            Back
+    <section className="mx-auto px-4 py-20 max-w-7xl">
+      {/* Back Button */}
+      <div className="mb-6">
+        <Link href="/dashboard/project">
+          <Button variant="outline" size="sm" className="flex items-center gap-2">
+            <ArrowLeft size={16} /> Back
           </Button>
         </Link>
       </div>
-      <h1 className='mb-8 font-bold text-3xl'>Edit Project</h1>
-      <form className='space-y-6 max-w-3xl' onSubmit={handleSubmit}>
-        <div className='space-y-2'>
-          <Label htmlFor='name'>Name</Label>
-          <Input
-            id='name'
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder='Enter project name'
-            className='bg-slate-50'
-            required
-          />
-        </div>
 
-        <div className='space-y-2'>
-          <Label htmlFor='description'>Description</Label>
-          <Input
-            id='description'
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            placeholder='Enter project description'
-            className='bg-slate-50'
-            required
-          />
-        </div>
+      <h1 className="mb-10 text-3xl md:text-4xl font-bold text-blue-600">Edit Project</h1>
 
-        <div className='space-y-2'>
-          <Label>Upload Project Thumbnail</Label>
-          <UploadWidget onUploadComplete={setImageUrl} />
-        </div>
+      <div className="flex flex-col lg:flex-row gap-10">
+        {/* Form */}
+        <div className="flex-1 space-y-6">
+          <form className="space-y-6" onSubmit={handleSubmit}>
+            <div className="space-y-1">
+              <Label htmlFor="name">Project Name</Label>
+              <Input
+                id="name"
+                value={name}
+                onChange={e => setName(e.target.value)}
+                placeholder="Enter project name"
+                className="bg-slate-50 rounded-md focus:ring-2 focus:ring-blue-500"
+                required
+              />
+            </div>
 
-        <div className='space-y-2'>
-          <Label htmlFor='liveUrl'>Live URL</Label>
-          <Input
-            id='liveUrl'
-            value={liveUrl}
-            onChange={(e) => setLiveUrl(e.target.value)}
-            placeholder='https://your-project-live.com'
-            className='bg-slate-50'
-            required
-          />
-        </div>
+            <div className="space-y-1">
+              <Label htmlFor="description">Description</Label>
+              <Input
+                id="description"
+                value={description}
+                onChange={e => setDescription(e.target.value)}
+                placeholder="Enter project description"
+                className="bg-slate-50 rounded-md focus:ring-2 focus:ring-blue-500"
+                required
+              />
+            </div>
 
-        <div className='space-y-2'>
-          <Label htmlFor='projectUrl'>Project Repo / URL</Label>
-          <Input
-            id='projectUrl'
-            value={projectUrl}
-            onChange={(e) => setProjectUrl(e.target.value)}
-            placeholder='https://github.com/your/repo'
-            className='bg-slate-50'
-            required
-          />
-        </div>
-
-        <div className='space-y-2'>
-          <Label>Features</Label>
-          <div className='flex gap-2'>
-            <Input
-              value={featureInput}
-              onChange={(e) => setFeatureInput(e.target.value)}
-              placeholder='Add a feature and click Add'
-              className='bg-slate-50'
-            />
-            <Button type='button' onClick={handleAddFeature}>
-              Add
-            </Button>
-          </div>
-          <div className='space-y-1 mt-2'>
-            {features.map((f, i) => (
-              <div
-                key={i}
-                className='flex justify-between items-center bg-white shadow-sm p-2 rounded'
-              >
-                <div className='text-sm'>{f}</div>
-                <button
-                  type='button'
-                  onClick={() => handleRemoveFeature(i)}
-                  className='ml-2 text-red-500'
-                >
-                  <X className='w-4 h-4' />
-                </button>
+            <div className="space-y-1">
+              <Label >Upload Project Thumbnail</Label>
+              <div className="border-2 border-blue-200 rounded-md p-2">
+                <UploadWidget onUploadComplete={setImageUrl} />
               </div>
-            ))}
-          </div>
+            </div>
+
+            <div className="space-y-1">
+              <Label htmlFor="liveUrl">Live URL</Label>
+              <Input
+                id="liveUrl"
+                value={liveUrl}
+                onChange={e => setLiveUrl(e.target.value)}
+                placeholder="https://your-project-live.com"
+                className="bg-slate-50 rounded-md focus:ring-2 focus:ring-blue-500"
+                required
+              />
+            </div>
+
+            <div className="space-y-1">
+              <Label htmlFor="projectUrl">Project Repo / URL</Label>
+              <Input
+                id="projectUrl"
+                value={projectUrl}
+                onChange={e => setProjectUrl(e.target.value)}
+                placeholder="https://github.com/your/repo"
+                className="bg-slate-50 rounded-md focus:ring-2 focus:ring-blue-500"
+                required
+              />
+            </div>
+
+            {/* Features */}
+            <div className="space-y-1">
+              <Label>Features</Label>
+              <div className="flex gap-2">
+                <Input
+                  value={featureInput}
+                  onChange={e => setFeatureInput(e.target.value)}
+                  placeholder="Add a feature and click Add"
+                  className="bg-slate-50 rounded-md focus:ring-2 focus:ring-blue-500"
+                />
+                <Button
+                  type="button"
+                  onClick={handleAddFeature}
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md"
+                >
+                  Add
+                </Button>
+
+              </div>
+              <div className="flex flex-wrap gap-2 mt-2">
+                {features.map((f, i) => (
+                  <div
+                    key={i}
+                    className="flex items-center gap-1 bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm"
+                  >
+                    {f}
+                    <X
+                      className="w-4 h-4 cursor-pointer hover:text-red-500"
+                      onClick={() => handleRemoveFeature(i)}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <Button
+              type="submit"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? 'Updating...' : 'Update Project'}
+            </Button>
+          </form>
         </div>
 
-        <Button type='submit' disabled={isSubmitting}>
-          {isSubmitting ? 'Updating...' : 'Update Project'}
-        </Button>
-      </form>
+        {/* Thumbnail Preview */}
+        <div className="w-full lg:w-1/3 flex flex-col items-center gap-4">
+          <Label>Thumbnail Preview</Label>
+          {imageUrl ? (
+            <div className="relative w-full min-h-[250px] border border-blue-200 rounded-lg overflow-hidden">
+              <Image src={imageUrl} alt="Thumbnail" fill className="object-contain" />
+            </div>
+          ) : (
+            <div className="w-full min-h-[250px] flex items-center justify-center border border-dashed border-blue-300 rounded-lg text-blue-300">
+              No image uploaded
+            </div>
+          )}
+        </div>
+      </div>
     </section>
   );
 }

@@ -36,7 +36,7 @@ export default async function ProjectPage() {
                 </div>
 
 
-                <h1 className="text-3xl font-bold text-gray-900">Project Management</h1>
+                <h1 className="text-3xl font-bold text-green-600">Project Management</h1>
                 <Button variant="outline" asChild>
                     <Link href="/dashboard/project/create">Add New Project</Link>
                 </Button>
