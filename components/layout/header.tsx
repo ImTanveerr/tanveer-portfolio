@@ -11,18 +11,19 @@ export function Header() {
   const session = useSession();
 
   const navItems = [
-    { name: 'About', href: '#about' },
+
     { name: 'Projects', href: '#projects' },
     { name: 'Blog', href: '#blog' },
-    { name: 'Contact', href: '#contact' },
     { name: 'Skills', href: '#skills' },
+    { name: 'About', href: '#about' },
+    { name: 'Contact', href: '#contact' },
   ];
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50">
       <div className="mx-auto max-w-6xl px-4 py-2">
         <div className="flex justify-between items-center gap-6 rounded-full px-4 py-2 shadow-sm bg-gradient-to-r from-blue-500/90 to-blue-400/90 dark:from-blue-800/90 dark:to-blue-700/90 backdrop-blur-md">
-          
+
           {/* Left: Logo/Name */}
           <Link
             href="/"
