@@ -1,13 +1,13 @@
-# 🌐 Portfolio Website – Frontend (Next.js + TypeScript)
+# Portfolio Website – Frontend (Next.js + TypeScript)
 
 This is the **frontend** of my personal portfolio website built with **Next.js**, **TypeScript**, and **Tailwind CSS**.  
 It provides a **modern, responsive, and SEO-friendly** interface to showcase my work, blog posts, and personal information.
 
 ---
 
-## 🚀 Features
+##  Features
 
-### 🔓 Public Pages
+### Public Pages
 - **Home Page** – Displays introduction and featured sections.
 - **About Me** – Static personal info (bio, education, contact, and skills).
 - **Projects Showcase** – Dynamic list of personal projects with thumbnails, live links, and descriptions.
@@ -16,7 +16,7 @@ It provides a **modern, responsive, and SEO-friendly** interface to showcase my 
   - Each blog uses **getStaticPaths + revalidate** for individual pre-rendering.
   - Fast performance and SEO optimization.
 
-### 🔐 Private (Owner Only)
+###  Private (Owner Only)
 - **Authentication**
   - Secure login with JWT (JSON Web Token) stored in cookies.
   - Token verified via Express backend.
@@ -26,7 +26,7 @@ It provides a **modern, responsive, and SEO-friendly** interface to showcase my 
   - View dynamic analytics and content stats.
 
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 | Technology | Purpose |
 |-------------|----------|
